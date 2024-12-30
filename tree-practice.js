@@ -29,6 +29,22 @@ function findMaxBST (rootNode) {
 
 function findMinBT (rootNode) {
   // Your code here
+  // This is a Binary Tree not a Binary Search Tree!
+  // We need to do a queue
+  // We need to keep record of the lowest because the tree not sorted
+  let number = [rootNode];
+  let min = null || rootNode.val;
+  while (number.length) {
+    let node = number.shift();
+
+    if (node.val < min) min = node.val;
+
+    if (node.left) number.push(node.left);
+    if (node.right) number.push(node.right);
+
+  }
+
+  return min;
 }
 
 function findMaxBT (rootNode) {
