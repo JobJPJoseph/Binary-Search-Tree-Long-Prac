@@ -96,12 +96,49 @@ function getHeight (rootNode) {
     if (parent.length > 0) height++; // This comfirms that their is another lvl
   }
 
-
   return height;
 }
 
 function balancedTree (rootNode) {
   // Your code here
+  // We can call getHeight for this.
+  // We will use breadth-first traversal to traverse down the tree bc it is not a BST
+  // The values themselves do not matter
+  // We will use two array to keep track of the parent node and children
+    // Withing the loop we will get the node and reference left and right to getHeight
+      // We must account for null this time
+    // It will return a number
+      // If the differnce is more than 1, than return false;
+      // Otherwise continue.
+  // We will switch the pointers
+
+  let parent = [rootNode];
+  let children = [];
+
+  while (parent.length) {
+
+    while (parent.length) {
+      let node = parent.pop();
+
+      // Does not matter if valid or not
+      let height1 = getHeight(node.left);
+      let height2 = getHeight(node.right);
+
+      // -1 > x < 1
+      // if ((height1 - height2) > 1) return false; // be aware of negative result
+      // We aren't doing this right
+      if (((height1 - height2) < -1) || ((height1 - height2) > 1)) return false;
+      // Does matter if valid
+      if (node.left) children.push(node.left);
+      if (node.right) children.push(node.right);
+    }
+
+    let temp = parent;
+    parent = children;
+    children = temp;
+  }
+
+  return true;
 }
 
 function countNodes (rootNode) {
