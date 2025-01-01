@@ -34,8 +34,8 @@ function findMinBT (rootNode) {
   // We need to keep record of the lowest because the tree not sorted
   let number = [rootNode];
   let min = null || rootNode.val;
-  while (number.length) {
-    let node = number.shift();
+  while (number.length) { // O(n)
+    let node = number.shift(); // O(n)
 
     if (node.val < min) min = node.val;
 
@@ -45,14 +45,59 @@ function findMinBT (rootNode) {
   }
 
   return min;
-}
+} // => O(n^2)
 
 function findMaxBT (rootNode) {
   // Your code here
-}
+  let number = [rootNode];
+  let min = null || rootNode.val;
+
+  while (number.length) { // O(n)
+    let node = number.pop(); // O(1)
+
+    if (node.val > min) min = node.val;
+
+    if (node.left) number.push(node.left);
+    if (node.right) number.push(node.right);
+
+  }
+
+  return min;
+} // => O(n)
 
 function getHeight (rootNode) {
   // Your code here
+  // if null : -1
+  // if length of 1: 0
+  // if length of 2: 1
+
+  if (rootNode === null) return -1;
+  let parent = [rootNode];
+  let children = [];
+  let height = 0;
+
+  // We need to fill numbers. We then need to shift or push until it is empty.
+  // Once empty we need to push all the children into a new array.
+    // We not concerned about the values in the array only the pointers
+    // Why pointers, bc we switch them to satisfy the test case
+
+  while (parent.length) {
+
+    while(parent.length) {
+      let node = parent.pop();
+      if (node.left) children.push(node.left);
+      if (node.right) children.push(node.right);
+    }
+
+    let temp = parent;
+    parent = children;
+    children = temp;
+
+    if (parent.length > 0) height++; // This comfirms that their is another lvl
+  }
+
+
+  return height;
 }
 
 function balancedTree (rootNode) {
