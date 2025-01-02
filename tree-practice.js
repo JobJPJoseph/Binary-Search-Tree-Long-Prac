@@ -143,6 +143,14 @@ function balancedTree (rootNode) {
 
 function countNodes (rootNode) {
   // Your code here
+  // This is Binary tree not a BST
+  if (rootNode === null) return 0;
+
+  let num1 = countNodes(rootNode.left);
+  let num2 = countNodes(rootNode.right);
+
+
+  return (num1 + num2) + 1;
 }
 
 function getParentNode (rootNode, target) {
