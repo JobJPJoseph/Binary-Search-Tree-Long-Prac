@@ -151,10 +151,21 @@ function countNodes (rootNode) {
 
 
   return (num1 + num2) + 1;
-}
+} // O(n)
 
 function getParentNode (rootNode, target) {
   // Your code here
+  if (rootNode === null) return undefined;
+  if (rootNode.val === target) return null; // if does not have parent
+
+  if ((rootNode.left && rootNode.left.val === target) || (rootNode.right && rootNode.right.val === target)) return rootNode;
+
+  if (target < rootNode.val) {
+    return getParentNode(rootNode.left, target);
+  } else {
+    return getParentNode(rootNode.right, target);
+  }
+
 }
 
 function inOrderPredecessor (rootNode, target) {
