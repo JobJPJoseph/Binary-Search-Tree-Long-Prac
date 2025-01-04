@@ -170,6 +170,54 @@ function getParentNode (rootNode, target) {
 
 function inOrderPredecessor (rootNode, target) {
   // Your code here
+  // The goal is not actually the target but use it as reference
+
+  if (rootNode === null) return null;
+
+
+  // We cannot use a BST algorithm,
+  // We must use a depth-first algorithm
+
+  let num1 = inOrderPredecessor(rootNode.left, target);
+
+  // I feel that their should be something here
+  if (rootNode.val < target && num1 === null) num1 = rootNode.val;
+  if (rootNode.val > num1 && rootNode.val < target) num1 = rootNode.val;
+
+  let num2 = inOrderPredecessor(rootNode.right, target);
+
+  if (rootNode.val < target && num2 === null) num2 = rootNode.val;
+  if (rootNode.val > num2 && rootNode.val < target) num2 = rootNode.val;
+
+  if (num1 === null && num2 === null) return null;
+  if (num1 && num2 === null) return num1;
+  if (num1 === null && num2) return num2;
+  if (num1 && num2) {
+    if (num1 === num2) return rootNode.val;
+
+    if (num1 > num2) {
+      return num1;
+    } else {
+      return num2;
+    }
+
+  }
+
+
+  // cases:
+    // both sides being equal so defualting to rootNode.val
+    // At 5 the left side is 4 and false for tests
+    // At 5 the right side is null
+    // At 6 num1 and num2 is null
+
+    // At 5 what will we do. We have 4 and null
+      // Since we achieved our goal we return the number
+
+    // At 3 the left side 2 and the right 4
+      // Return the larger of the two
+
+
+
 }
 
 function deleteNodeBST(rootNode, target) {
