@@ -222,16 +222,20 @@ function inOrderPredecessor (rootNode, target) {
 
 function deleteNodeBST(rootNode, target) {
   // Do a traversal to find the node. Keep track of the parent
+  let parent = getParentNode(rootNode, target); // null : undefined : node
 
   // Undefined if the target cannot be found
-
+  if (parent === undefined) return parent;
   // Set target based on parent
 
   // Case 0: Zero children and no parent:
   //   return null
+  if (parent === null) return null; // It the first node
 
   // Case 1: Zero children:
   //   Set the parent that points to it to null
+  if (parent.left.val === target) parent.left = null;
+  if (parent.right.val === target) parent.right = null;
 
   // Case 2: Two children:
   //  Set the value to its in-order predecessor, then delete the predecessor
@@ -241,6 +245,29 @@ function deleteNodeBST(rootNode, target) {
 
   // Case 3: One child:
   //   Make the parent point to the child
+  let targetNode;
+
+  if (parent.left.val === target) {
+    targetNode = parent.left;
+
+    if (targetNode.left) {
+      parent.left = targetNode.left;
+    } else {
+      parent.left = targetNode.right;
+    }
+  }
+
+  if (parent.right.val === target) {
+    targetNode = parent.right;
+
+    if (targetNode.left) {
+      parent.right = targetNode.left;
+    } else {
+      parent.right = targetNode.right;
+    }
+
+  }
+
 
 }
 
