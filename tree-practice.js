@@ -251,12 +251,13 @@ function deleteNodeBST(rootNode, target) {
   // Case 0: Zero children and no parent:
   //   return null
 
+
   if (parent === null) { // Its the first node
 
-    if (nodeChildren) {
+    if (nodeChildren === 0) {
       return null;
     } else if (nodeChildren === 1) {
-      parent.val = nodeChildren.val;
+      parent.val = targetNode.val;
       parent.left = null;
       parent.right = null;
     } else {
@@ -282,26 +283,58 @@ function deleteNodeBST(rootNode, target) {
   //   Set the parent that points to it to null
 
   if (parent) {
-    if (parent.left && parent.left.val === target) {
+    if (nodeChildren === 0) {
 
-      let node = parent.left;
-
-      if (node.left === null && node.right === null) {
+      if (parent.left !== null && parent.left.val === targetNode.val) {
         parent.left = null;
-        return;
-      }
-
-    }
-
-    if (parent.right && parent.right.val === target) {
-      let node = parent.right;
-
-      if (node.left === null && node.right === null) {
+      } else {
         parent.right = null;
-        return;
       }
 
+    } else if (nodeChildren === 1) {
+
+      if (parent.left !== null && parent.left.val === targetNode.val) {
+        if (targetNode.left !== null) {
+          parent.left = targetNode.left;
+        } else {
+          parent.left = targetNode.right;
+        }
+      } else {
+        if (targetNode.left !== null) {
+          parent.right = targetNode.left;
+        } else {
+          parent.right = targetNode.right;
+        }
+      }
+
+    } else {
+      // Two children
+
+      let predecessorVal = inOrderPredecessor(rootNode, target);
+
+      // Deleting Predecessor
+      let predecessorParent = getParentNode(rootNode, predecessorVal);
+
+      if (predecessorParent.left !== null && predecessorParent.left.val === predecessorVal) {
+        let node = predecessorParent.left;
+
+        predecessorParent.left = null;
+        targetNode.val = node.val;
+      }
+
+      if (predecessorParent.right !== null && predecessorParent.right.val === predecessorVal) {
+        let node = predecessorParent.right;
+
+        predecessorParent.right = null;
+        targetNode.val = node.val;
+      }
+
+
+      rootNode.val = predecessorVal;
+
+      return;
     }
+
   }
 
   // Case 2: Two children:
@@ -310,57 +343,8 @@ function deleteNodeBST(rootNode, target) {
   //  or the right most child on its left side.
   //  Then delete the child that it was replaced with.
 
-  if (parent && parent.right.val === target) {
-    let predecessorVal = inOrderPredecessor(rootNode, target);
-
-    // Deleting Predecessor
-    let predecessorParent = getParentNode(rootNode, predecessorVal);
-
-    // Have if point the left
-    if (predecessorParent.left.val === predecessorVal) {
-      let node = predecessorParent.left;
-
-      predecessorParent.left = node.left || null;
-    }
-
-    predecessorParent.val = predecessorVal;
-    return;
-  }
-
   // Case 3: One child:
   // Make the parent point to the child
-
-  // if (parent) {
-  //   if (parent.left && parent.left.val === target) {
-  //     let node = parent.left;
-
-  //     if (node.left && node.right === null) {
-  //       parent.left = node.left;
-  //     }
-
-  //     if (node.left === null && node.right) {
-  //       parent.left = node.right;
-  //     }
-
-  //     return;
-  //   }
-
-  //   if (parent.right && parent.right.val === target) {
-  //     let node = parent.right;
-
-  //     if (node.left && node.right === null) {
-  //       parent.right = node.left;
-  //     }
-
-  //     if (node.left === null && node.right) {
-  //       parent.right = node.right;
-  //     }
-
-  //     return;
-  //   }
-
-  // }
-
 
 }
 
